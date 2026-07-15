@@ -1,15 +1,15 @@
 :root {
   color-scheme: dark;
-  --bg: #0b1020;
-  --bg-soft: rgba(255, 255, 255, 0.05);
-  --surface: rgba(11, 16, 32, 0.78);
-  --surface-border: rgba(255, 255, 255, 0.1);
-  --text: #eef2ff;
-  --muted: #b6bed9;
-  --accent: #6ee7ff;
-  --accent-strong: #22d3ee;
-  --accent-ink: #04111a;
-  --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  --bg: #0e1523;
+  --bg-soft: rgba(255, 255, 255, 0.04);
+  --surface: rgba(15, 23, 42, 0.92);
+  --surface-border: rgba(148, 163, 184, 0.16);
+  --text: #edf2f7;
+  --muted: #afbac9;
+  --accent: #7bc8d6;
+  --accent-strong: #9edfe9;
+  --accent-ink: #08111a;
+  --shadow: 0 18px 44px rgba(2, 8, 23, 0.32);
 }
 
 * {
@@ -25,9 +25,8 @@ body {
   min-height: 100vh;
   font-family: 'Inter', sans-serif;
   background:
-    radial-gradient(circle at top left, rgba(34, 211, 238, 0.18), transparent 30%),
-    radial-gradient(circle at top right, rgba(14, 165, 233, 0.16), transparent 24%),
-    linear-gradient(160deg, #090d1a 0%, #0f172a 55%, #111827 100%);
+    radial-gradient(circle at top left, rgba(123, 200, 214, 0.12), transparent 28%),
+    linear-gradient(180deg, #0c1220 0%, #0e1523 52%, #111a2b 100%);
   color: var(--text);
 }
 
@@ -36,10 +35,7 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(circle at center, black, transparent 85%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.02), transparent 28%);
 }
 
 .page-shell {
@@ -57,7 +53,6 @@ body::before {
 .hero,
 .project-card,
 .hero-card {
-  backdrop-filter: blur(18px);
   background: var(--surface);
   border: 1px solid var(--surface-border);
   box-shadow: var(--shadow);
@@ -65,10 +60,10 @@ body::before {
 
 .hero {
   display: grid;
-  grid-template-columns: 1.4fr 0.9fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 24px;
-  padding: 28px;
-  border-radius: 28px;
+  padding: 30px;
+  border-radius: 22px;
 }
 
 .eyebrow {
@@ -90,6 +85,7 @@ p {
   font-size: clamp(2.8rem, 6vw, 5.5rem);
   line-height: 0.95;
   letter-spacing: -0.06em;
+  font-family: 'Georgia', 'Times New Roman', serif;
 }
 
 .title {
@@ -132,20 +128,20 @@ p {
 
 .button.primary {
   color: var(--accent-ink);
-  background: linear-gradient(135deg, var(--accent), #c4f4ff);
-  box-shadow: 0 14px 30px rgba(34, 211, 238, 0.28);
+  background: linear-gradient(135deg, var(--accent), #c9edf2);
+  box-shadow: 0 10px 22px rgba(123, 200, 214, 0.2);
 }
 
 .button.secondary {
   color: var(--text);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .hero-card {
   align-self: stretch;
-  border-radius: 24px;
-  padding: 22px;
+  border-radius: 18px;
+  padding: 20px;
 }
 
 .card-label {
@@ -153,7 +149,7 @@ p {
   margin-bottom: 14px;
   padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(110, 231, 255, 0.12);
+  background: rgba(123, 200, 214, 0.14);
   color: var(--accent);
   font-size: 0.75rem;
   font-weight: 700;
@@ -197,8 +193,8 @@ p {
 }
 
 .project-card {
-  border-radius: 24px;
-  padding: 22px;
+  border-radius: 18px;
+  padding: 20px;
   min-height: 230px;
   display: flex;
   flex-direction: column;
@@ -246,9 +242,8 @@ p {
 .project-hero {
   display: grid;
   gap: 14px;
-  padding: 28px;
-  border-radius: 28px;
-  backdrop-filter: blur(18px);
+  padding: 30px;
+  border-radius: 22px;
   background: var(--surface);
   border: 1px solid var(--surface-border);
   box-shadow: var(--shadow);
@@ -266,8 +261,7 @@ p {
   align-items: center;
   gap: 22px;
   padding: 22px;
-  border-radius: 28px;
-  backdrop-filter: blur(18px);
+  border-radius: 20px;
   background: var(--surface);
   border: 1px solid var(--surface-border);
   box-shadow: var(--shadow);
@@ -309,8 +303,8 @@ p {
   text-decoration: none;
   font-weight: 800;
   color: var(--accent-ink);
-  background: linear-gradient(135deg, var(--accent), #c4f4ff);
-  box-shadow: 0 18px 36px rgba(34, 211, 238, 0.32);
+  background: linear-gradient(135deg, var(--accent), #d7eef1);
+  box-shadow: 0 12px 24px rgba(123, 200, 214, 0.18);
 }
 
 @media (max-width: 920px) {
@@ -337,7 +331,7 @@ p {
   .hero-card,
   .project-hero,
   .project-split {
-    border-radius: 20px;
+    border-radius: 16px;
   }
 
   .hero {
