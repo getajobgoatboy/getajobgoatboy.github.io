@@ -17,19 +17,20 @@
     <link rel="stylesheet" href="../../public/styles.css" />
   </head>
   <body>
+    <button class="floating-language" id="language-toggle" type="button" aria-label="Switch to English">EN</button>
     <a class="floating-github" href="https://github.com/getajobgoatboy/ANTE" target="_blank" rel="noreferrer">Ver en GitHub</a>
 
     <div class="page-shell">
       <main class="page project-page">
         <section class="project-hero">
-          <p class="eyebrow">Proyecto destacado</p>
+          <p class="eyebrow" id="i18n-project-eyebrow">Proyecto destacado</p>
           <h1>ANTE</h1>
-          <p class="summary">Un videojuego online multijugador (2-4 jugadores) inspirado en UNO con mecánicas de Póker.</p>
+          <p class="summary" id="i18n-project-summary">Un videojuego online multijugador (2-4 jugadores) inspirado en UNO con mecánicas de Póker.</p>
         </section>
 
         <section class="project-split">
           <div class="project-split-copy">
-            <p>
+            <p id="i18n-project-text-1">
               ANTE es el proyecto final que presenté al acabar DAM (desarrollado entre 2 personas) que mezcla mecánicas básicas del UNO con mecánicas de apuestas y de Póker. Esta simple idea nos hizo llevarnos un sobresaliente de nota y considerar publicar el juego en Steam o en itch.io cuando estuviera completamente terminado.
             </p>
           </div>
@@ -40,9 +41,8 @@
 
         <section class="project-split reverse">
           <div class="project-split-copy">
-            <p>
-              Encargado del diseño de la interfaz, de las cartas y de todo el apartado visual del juego (quitando los escenarios, sacados de la Asset Store para ahorrar tiempo). Contribuidor en la programación de la lógica de las cartas y de algunas mecánicas de juego aun en desarrollo. 
-              NGO utilizado para el desarrollo del apartado online y actualmente aprendiendo el Steamworks SDK para poder publicar el juego en Steam.
+            <p id="i18n-project-text-2">
+              Encargado del diseño de la interfaz, de las cartas y de todo el apartado visual del juego (quitando los escenarios, sacados de la Asset Store para ahorrar tiempo). Contribuidor en la programación de la lógica de las cartas y de algunas mecánicas de juego aun en desarrollo.
             </p>
           </div>
           <div class="project-split-image">
@@ -51,5 +51,75 @@
         </section>
       </main>
     </div>
+
+    <script>
+      (function () {
+        const LANGUAGE_KEY = 'portfolio-language';
+        const toggle = document.getElementById('language-toggle');
+        const githubButton = document.querySelector('.floating-github');
+        const metaDescription = document.querySelector('meta[name="description"]');
+        const esSnapshot = {
+          github: githubButton.textContent,
+          projectEyebrow: document.getElementById('i18n-project-eyebrow').textContent,
+          projectSummary: document.getElementById('i18n-project-summary').textContent,
+          projectText1: document.getElementById('i18n-project-text-1').textContent.trim(),
+          projectText2: document.getElementById('i18n-project-text-2').textContent.trim(),
+          metaDescription: metaDescription ? metaDescription.getAttribute('content') : ''
+        };
+        let currentLanguage = 'es';
+
+        const translations = {
+          es: esSnapshot,
+          en: {
+            github: 'View on GitHub',
+            projectEyebrow: 'Featured project',
+            projectSummary:
+              'An online multiplayer videogame (2-4 players) inspired by UNO with Poker mechanics.',
+            projectText1:
+              'ANTE is the final project I presented at the end of DAM (developed by 2 people). It mixes classic UNO mechanics with betting and Poker systems. This simple concept helped us earn an outstanding grade and consider publishing the game on Steam or itch.io when it is fully finished.',
+            projectText2:
+              'I was responsible for interface design, cards, and the overall visual direction of the game (except environments, taken from the Asset Store to save time). I also contributed to the card logic programming and several gameplay mechanics still in development.',
+            metaDescription:
+              'ANTE project from Javier Villacorta Garcia portfolio.'
+          }
+        };
+
+        function setLanguage(language) {
+          const copy = translations[language];
+          document.documentElement.lang = language;
+          githubButton.textContent = copy.github;
+          document.getElementById('i18n-project-eyebrow').textContent = copy.projectEyebrow;
+          document.getElementById('i18n-project-summary').textContent = copy.projectSummary;
+          document.getElementById('i18n-project-text-1').textContent = copy.projectText1;
+          document.getElementById('i18n-project-text-2').textContent = copy.projectText2;
+          if (metaDescription) {
+            metaDescription.setAttribute('content', copy.metaDescription);
+          }
+
+          toggle.textContent = language === 'en' ? 'ES' : 'EN';
+          toggle.setAttribute('aria-label', language === 'en' ? 'Cambiar a español' : 'Switch to English');
+          currentLanguage = language;
+
+          try {
+            localStorage.setItem(LANGUAGE_KEY, language);
+          } catch (error) {
+            // Ignore storage issues.
+          }
+        }
+
+        toggle.addEventListener('click', function () {
+          setLanguage(currentLanguage === 'es' ? 'en' : 'es');
+        });
+
+        try {
+          const savedLanguage = localStorage.getItem(LANGUAGE_KEY);
+          if (savedLanguage === 'en') {
+            setLanguage('en');
+          }
+        } catch (error) {
+          // Ignore storage issues.
+        }
+      })();
+    </script>
   </body>
 </html>

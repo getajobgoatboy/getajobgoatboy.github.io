@@ -17,20 +17,21 @@
     <link rel="stylesheet" href="../../public/styles.css" />
   </head>
   <body>
+    <button class="floating-language" id="language-toggle" type="button" aria-label="Switch to English">EN</button>
     <a class="floating-github" href="https://github.com/getajobgoatboy" target="_blank" rel="noreferrer">Ver en GitHub</a>
 
     <div class="page-shell">
       <main class="page project-page">
         <section class="project-hero">
-          <p class="eyebrow">Proyecto destacado</p>
+          <p class="eyebrow" id="i18n-project-eyebrow">Proyecto destacado</p>
           <h1>A Game About Grocery Shopping</h1>
-          <p class="summary">Un videojuego de comedia basado en texto con elementos de RPG por tunos.</p>
+          <p class="summary" id="i18n-project-summary">Un videojuego de comedia basado en texto con elementos de RPG por tunos.</p>
         </section>
 
         <section class="project-split">
           <div class="project-split-copy">
-            <p>
-              A Game About Grocery Shopping (AGAGS) es un proyecto secundario que desarrollo en solitario. Es un juego corto basado en texto con una historia de comedia en el que el protagonista se queda sin cerveza mientras ve un partido y sale ebrio a la calle en busca de más bebida.
+            <p id="i18n-project-text-1">
+              A Game About Grocery Shopping (AGAGS) es un proyecto secundario que desarrollo en solitario durante mis ratos libres. Es un juego corto con una historia de comedia en el que el protagonista se queda sin cerveza mientras ve un partido y sale ebrio a la calle en busca de más bebida.
             </p>
           </div>
           <div class="project-split-image">
@@ -40,7 +41,7 @@
 
         <section class="project-split reverse">
           <div class="project-split-copy">
-            <p>
+            <p id="i18n-project-text-2">
               Actualmente se encuentra en una versión muy alpha, así que no puedo mostrar mucho más que un par de capturas de la mecánica principal de combate. Encargado de todo el desarrollo del juego, incluyendo sprites, arte e historia.
             </p>
           </div>
@@ -50,5 +51,75 @@
         </section>
       </main>
     </div>
+
+    <script>
+      (function () {
+        const LANGUAGE_KEY = 'portfolio-language';
+        const toggle = document.getElementById('language-toggle');
+        const githubButton = document.querySelector('.floating-github');
+        const metaDescription = document.querySelector('meta[name="description"]');
+        const esSnapshot = {
+          github: githubButton.textContent,
+          projectEyebrow: document.getElementById('i18n-project-eyebrow').textContent,
+          projectSummary: document.getElementById('i18n-project-summary').textContent,
+          projectText1: document.getElementById('i18n-project-text-1').textContent.trim(),
+          projectText2: document.getElementById('i18n-project-text-2').textContent.trim(),
+          metaDescription: metaDescription ? metaDescription.getAttribute('content') : ''
+        };
+        let currentLanguage = 'es';
+
+        const translations = {
+          es: esSnapshot,
+          en: {
+            github: 'View on GitHub',
+            projectEyebrow: 'Featured project',
+            projectSummary:
+              'A text-based comedy videogame with turn-based RPG elements.',
+            projectText1:
+              'A Game About Grocery Shopping (AGAGS) is a side project I am developing on my own during my free time. It is a short comedy story where the protagonist runs out of beer while watching a match and goes out drunk to find more.',
+            projectText2:
+              'It is currently in a very early alpha version, so I can only show a couple of screenshots of the main combat mechanic. I am responsible for the whole game development, including sprites, art, and story.',
+            metaDescription:
+              'A Game About Grocery Shopping project from Javier Villacorta Garcia portfolio.'
+          }
+        };
+
+        function setLanguage(language) {
+          const copy = translations[language];
+          document.documentElement.lang = language;
+          githubButton.textContent = copy.github;
+          document.getElementById('i18n-project-eyebrow').textContent = copy.projectEyebrow;
+          document.getElementById('i18n-project-summary').textContent = copy.projectSummary;
+          document.getElementById('i18n-project-text-1').textContent = copy.projectText1;
+          document.getElementById('i18n-project-text-2').textContent = copy.projectText2;
+          if (metaDescription) {
+            metaDescription.setAttribute('content', copy.metaDescription);
+          }
+
+          toggle.textContent = language === 'en' ? 'ES' : 'EN';
+          toggle.setAttribute('aria-label', language === 'en' ? 'Cambiar a español' : 'Switch to English');
+          currentLanguage = language;
+
+          try {
+            localStorage.setItem(LANGUAGE_KEY, language);
+          } catch (error) {
+            // Ignore storage issues.
+          }
+        }
+
+        toggle.addEventListener('click', function () {
+          setLanguage(currentLanguage === 'es' ? 'en' : 'es');
+        });
+
+        try {
+          const savedLanguage = localStorage.getItem(LANGUAGE_KEY);
+          if (savedLanguage === 'en') {
+            setLanguage('en');
+          }
+        } catch (error) {
+          // Ignore storage issues.
+        }
+      })();
+    </script>
   </body>
 </html>

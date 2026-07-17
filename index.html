@@ -17,13 +17,16 @@
     <link rel="stylesheet" href="public/styles.css" />
   </head>
   <body>
+    <button class="floating-language" id="language-toggle" type="button" aria-label="Switch to English">EN</button>
+
     <div class="page-shell">
       <main class="page">
         <section class="hero">
           <div class="hero-copy">
+            <p class="eyebrow" id="i18n-main-eyebrow">Portfolio</p>
             <h1>Javier Villacorta García</h1>
-            <p class="title">Desarrollador Junior - Unity y C#</p>
-            <p class="summary">
+            <p class="title" id="i18n-main-title">Desarrollador Junior - Unity</p>
+            <p class="summary" id="i18n-main-summary">
               Desarrollador recién graduado en DAM, con experiencia en desarrollo de videojuegos en Unity y C#, y realidad virtual y aumentada (Meta Quest, Apple Vision Pro).
             </p>
             <div class="contact-row">
@@ -35,16 +38,16 @@
 
         <section class="projects-section">
           <div class="section-heading">
-            <p class="eyebrow">Proyectos</p>
+            <p class="eyebrow" id="i18n-projects-eyebrow">Proyectos</p>
           </div>
 
           <div class="projects-grid">
             <article class="project-card">
               <div class="project-top">
                 <h3>ANTE</h3>
-                <a href="proyectos/ante/">Ver</a>
+                <a href="proyectos/ante/" id="i18n-project-1-link">Ver</a>
               </div>
-              <p>Un videojuego online multijugador (2-4 jugadores) inspirado en UNO con mecánicas de Póker.</p>
+              <p id="i18n-project-1-desc">Un videojuego online multijugador (2-4 jugadores) inspirado en UNO con mecánicas de Póker.</p>
               <div class="tags">
                 <span>Unity</span>
                 <span>C#</span>
@@ -55,9 +58,9 @@
             <article class="project-card">
               <div class="project-top">
                 <h3>A Game About Grocery Shopping</h3>
-                <a href="proyectos/agags/">Ver</a>
+                <a href="proyectos/agags/" id="i18n-project-2-link">Ver</a>
               </div>
-              <p>Un videojuego de comedia basado en texto con elementos de RPG por tunos.</p>
+              <p id="i18n-project-2-desc">Un videojuego de comedia basado en texto con elementos de RPG por tunos.</p>
               <div class="tags">
                 <span>Unity</span>
                 <span>C#</span>
@@ -67,5 +70,97 @@
         </section>
       </main>
     </div>
+
+    <script>
+      (function () {
+        const LANGUAGE_KEY = 'portfolio-language';
+        const toggle = document.getElementById('language-toggle');
+        const metaDescription = document.querySelector('meta[name="description"]');
+        const projectLinks = [
+          document.getElementById('i18n-project-1-link'),
+          document.getElementById('i18n-project-2-link')
+        ];
+        const projectDescriptions = [
+          document.getElementById('i18n-project-1-desc'),
+          document.getElementById('i18n-project-2-desc')
+        ];
+
+        const esSnapshot = {
+          mainEyebrow: document.getElementById('i18n-main-eyebrow').textContent,
+          mainTitle: document.getElementById('i18n-main-title').textContent,
+          mainSummary: document.getElementById('i18n-main-summary').textContent,
+          projectsEyebrow: document.getElementById('i18n-projects-eyebrow').textContent,
+          projectLink: projectLinks[0].textContent,
+          projectDescriptions: projectDescriptions.map((node) => node.textContent),
+          metaDescription: metaDescription ? metaDescription.getAttribute('content') : ''
+        };
+
+        let currentLanguage = 'es';
+
+        const translations = {
+          es: esSnapshot,
+          en: {
+            mainEyebrow: 'Portfolio',
+            mainTitle: 'Junior Developer - Unity',
+            mainSummary:
+              'Developer recently graduated in DAM, with experience in Unity and C# game development, plus virtual and augmented reality (Meta Quest, Apple Vision Pro).',
+            projectsEyebrow: 'Projects',
+            projectLink: 'View',
+            projectDescriptions: [
+              'An online multiplayer videogame (2-4 players) inspired by UNO with Poker mechanics.',
+              'A text-based comedy videogame with turn-based RPG elements.'
+            ],
+            metaDescription:
+              'Personal portfolio of Javier Villacorta Garcia, with contact information and featured projects.'
+          }
+        };
+
+        function setLanguage(language) {
+          const copy = translations[language];
+          document.documentElement.lang = language;
+          document.getElementById('i18n-main-eyebrow').textContent = copy.mainEyebrow;
+          document.getElementById('i18n-main-title').textContent = copy.mainTitle;
+          document.getElementById('i18n-main-summary').textContent = copy.mainSummary;
+          document.getElementById('i18n-projects-eyebrow').textContent = copy.projectsEyebrow;
+
+          projectLinks.forEach((link) => {
+            link.textContent = copy.projectLink;
+          });
+
+          projectDescriptions.forEach((description, index) => {
+            if (copy.projectDescriptions[index]) {
+              description.textContent = copy.projectDescriptions[index];
+            }
+          });
+
+          if (metaDescription) {
+            metaDescription.setAttribute('content', copy.metaDescription);
+          }
+
+          toggle.textContent = language === 'en' ? 'ES' : 'EN';
+          toggle.setAttribute('aria-label', language === 'en' ? 'Cambiar a español' : 'Switch to English');
+          currentLanguage = language;
+
+          try {
+            localStorage.setItem(LANGUAGE_KEY, language);
+          } catch (error) {
+            // Ignore storage issues.
+          }
+        }
+
+        toggle.addEventListener('click', function () {
+          setLanguage(currentLanguage === 'es' ? 'en' : 'es');
+        });
+
+        try {
+          const savedLanguage = localStorage.getItem(LANGUAGE_KEY);
+          if (savedLanguage === 'en') {
+            setLanguage('en');
+          }
+        } catch (error) {
+          // Ignore storage issues.
+        }
+      })();
+    </script>
   </body>
 </html>
